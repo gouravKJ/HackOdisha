@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusXchange - Student Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__content">
+                <div class="header__logo" onclick="navigateToHome()" role="button" tabindex="0">
+                    <h1>🎓 CampusXchange</h1>
+                </div>
+                
+                <div class="header__search">
+                    <input type="text" placeholder="Search for books, electronics, furniture..." class="search-input" id="searchInput">
+                    <button class="btn btn--primary search-btn" id="searchBtn">Search</button>
+                </div>
+                
+                <div class="header__right">
+                    <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    
+                    <nav class="header__nav">
+                        <button class="nav-btn active" data-page="home">Home</button>
+                        <button class="nav-btn" data-page="browse">Browse</button>
+                        <button class="nav-btn" data-page="services">Services</button>
+                        <button class="nav-btn" data-page="post">Sell Item</button>
+                        <button class="nav-btn" data-page="chat">Messages</button>
+                    </nav>
+                    
+                    <!-- Google-style Account Menu -->
+                    <div class="account-menu">
+                        <button class="account-avatar" id="accountAvatar" title="Account">
+                            <div class="avatar-circle">JD</div>
+                        </button>
+                        
+                        <div class="account-dropdown hidden" id="accountDropdown">
+                            <div class="dropdown-content">
+                                <!-- User logged in state -->
+                                <div class="user-section" id="userSection">
+                                    <div class="user-avatar">
+                                        <div class="avatar-large">JD</div>
+                                    </div>
+                                    <div class="user-info">
+                                        <div class="user-name">John Doe</div>
+                                        <div class="user-email">john.doe@college.edu</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="dropdown-divider"></div>
+                                
+                                <div class="dropdown-items">
+                                    <button class="dropdown-item" onclick="handleAccountAction('manage')">
+                                        <span class="item-icon">⚙️</span>
+                                        Manage your account
+                                    </button>
+                                    <button class="dropdown-item" onclick="handleAccountAction('listings')">
+                                        <span class="item-icon">📝</span>
+                                        My listings
+                                    </button>
+                                    <button class="dropdown-item" onclick="handleAccountAction('orders')">
+                                        <span class="item-icon">📦</span>
+                                        My orders
+                                    </button>
+                                </div>
+                                
+                                <div class="dropdown-divider"></div>
+                                
+                                <div class="dropdown-items">
+                                    <button class="dropdown-item" onclick="handleAccountAction('add-account')">
+                                        <span class="item-icon">👤</span>
+                                        Add another account
+                                    </button>
+                                    <button class="dropdown-item" onclick="handleAccountAction('sign-out')">
+                                        <span class="item-icon">🚪</span>
+                                        Sign out
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Home Page -->
+        <section id="homePage" class="page active">
+            <!-- Hero Section -->
+            <div class="hero">
+                <div class="container">
+                    <div class="hero__content">
+                        <h1 class="hero__title">Buy & Sell Within Your Campus</h1>
+                        <p class="hero__subtitle">Connect with fellow students to buy and sell textbooks, electronics, furniture, and more!</p>
+                        <div class="hero__actions">
+                            <button class="btn btn--primary btn--lg" data-page="browse">Start Shopping</button>
+                            <button class="btn btn--outline btn--lg" data-page="post">Sell Your Items</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Section -->
+            <div class="categories-section">
+                <div class="container">
+                    <h2>Shop by Category</h2>
+                    <div class="categories-grid" id="categoriesGrid"></div>
+                </div>
+            </div>
+
+            <!-- Featured Listings -->
+            <div class="featured-section">
+                <div class="container">
+                    <h2>Recent Listings</h2>
+                    <div class="products-grid" id="featuredProducts"></div>
+                </div>
+            </div>
+
+            <!-- AI Recommendations -->
+            <div class="recommendations-section">
+                <div class="container">
+                    <h2>🤖 AI Recommendations for You</h2>
+                    <div class="recommendations-grid" id="recommendationsGrid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Browse Page -->
+        <section id="browsePage" class="page">
+            <div class="container">
+                <div class="browse-header">
+                    <h1>Marketplace</h1>
+                    <div class="filters">
+                        <select class="form-control" id="categoryFilter">
+                            <option value="">All Categories</option>
+                        </select>
+                        <select class="form-control" id="conditionFilter">
+                            <option value="">Any Condition</option>
+                            <option value="Like New">Like New</option>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair">Fair</option>
+                        </select>
+                        <input type="number" placeholder="Max Price" class="form-control" id="priceFilter">
+                    </div>
+                </div>
+                <div class="products-grid" id="browseProducts"></div>
+            </div>
+        </section>
+
+        <!-- Services Page -->
+        <section id="servicesPage" class="page">
+            <div class="container">
+                <div class="services-header">
+                    <h1>Freelance Services</h1>
+                    <p>Find talented students to help with your projects</p>
+                </div>
+                
+                <div class="services-categories">
+                    <h3>Popular Services</h3>
+                    <div class="categories-grid" id="servicesCategoriesGrid"></div>
+                </div>
+                
+                <div class="services-listings">
+                    <h3>Featured Services</h3>
+                    <div class="services-grid" id="servicesGrid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Post Ad Page -->
+        <section id="postPage" class="page">
+            <div class="container">
+                <div class="post-form-container">
+                    <h1>Sell Your Item</h1>
+                    <form class="post-form" id="postForm">
+                        <div class="form-group">
+                            <label class="form-label">Item Title *</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Category *</label>
+                            <select class="form-control" required id="postCategory"></select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Condition *</label>
+                            <select class="form-control" required>
+                                <option value="Like New">Like New</option>
+                                <option value="Excellent">Excellent</option>
+                                <option value="Good">Good</option>
+                                <option value="Fair">Fair</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Price (₹) *</label>
+                            <input type="number" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Original Price (₹)</label>
+                            <input type="number" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Description *</label>
+                            <textarea class="form-control" rows="4" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Location</label>
+                            <div class="location-input-group">
+                                <input type="text" class="form-control" placeholder="e.g., Hostel A, Room 205" id="locationInput">
+                                <button type="button" class="btn btn--outline location-detect-btn" id="detectLocationBtn">
+                                    <span class="location-icon">📍</span> Auto-detect
+                                </button>
+                            </div>
+                            <div class="location-status" id="locationStatus"></div>
+                        </div>
+                        
+                        <div class="image-upload">
+                            <label class="form-label">Photos</label>
+                            <div class="upload-area">
+                                <p>📷 Click to upload photos (Max 5)</p>
+                                <input type="file" multiple accept="image/*" style="display: none;">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn--primary btn--full-width">Post Item</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat Page -->
+        <section id="chatPage" class="page">
+            <div class="container">
+                <div class="chat-container">
+                    <div class="chat-sidebar">
+                        <h2>Messages</h2>
+                        <div class="chat-list" id="chatList"></div>
+                    </div>
+                    <div class="chat-main">
+                        <div class="chat-header">
+                            <h3 id="chatPartner">Select a conversation</h3>
+                        </div>
+                        <div class="chat-messages" id="chatMessages"></div>
+                        <div class="chat-input">
+                            <input type="text" placeholder="Type a message..." class="form-control" id="messageInput">
+                            <button class="btn btn--primary" id="sendBtn">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="saveItem">💾 Save Item</button>
+                <button class="btn btn--primary" id="contactSeller">💬 Contact Seller</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="success-message hidden">
+        <div class="success-content">
+            <span class="success-icon">✅</span>
+            <span id="successText">Action completed successfully!</span>
+        </div>
+    </div>
+
+    <!-- Sign In Modal -->
+    <div id="signInModal" class="modal hidden">
+        <div class="modal-content sign-in-modal">
+            <div class="modal-header">
+                <h2>Sign in to CampusXchange</h2>
+                <button class="modal-close" id="closeSignInModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="sign-in-content">
+                    <div class="google-sign-in-btn" onclick="handleSignIn()">
+                        <span class="google-icon">🔑</span>
+                        Sign in with College Account
+                    </div>
+                    <div class="sign-in-divider">
+                        <span>or</span>
+                    </div>
+                    <button class="btn btn--outline btn--full-width" onclick="handleUseAnotherAccount()">
+                        Use another account
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
