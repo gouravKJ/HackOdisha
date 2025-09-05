@@ -43,11 +43,6 @@
                 </div>
                 
                 <div class="header__right">
-                    <!-- Sign In Button (shown when not logged in) -->
-                    <button class="btn btn--outline" id="headerSignInBtn" onclick="showSignInModal('Welcome to CampusXchange! Please sign in to get started.')" style="display: none;">
-                        Sign In
-                    </button>
-                    
                     <!-- Google-style Account Menu -->
                     <div class="account-menu">
                         <button class="account-avatar" id="accountAvatar" title="Account">
@@ -67,6 +62,14 @@
                                     </div>
                                 </div>
                                 
+                                <!-- Sign in option when not logged in -->
+                                <div class="dropdown-items" id="signInOption" style="display: none;">
+                                    <button class="dropdown-item" onclick="showSignInModal('Welcome to CampusXchange! Please sign in to get started.')">
+                                        <span class="item-icon">🔐</span>
+                                        Sign In
+                                    </button>
+                                </div>
+                                
                                 <div class="dropdown-divider"></div>
                                 
                                 <div class="dropdown-items">
@@ -78,19 +81,11 @@
                                         <span class="item-icon">📝</span>
                                         My listings
                                     </button>
-                                    <button class="dropdown-item" onclick="handleAccountAction('orders')">
-                                        <span class="item-icon">📦</span>
-                                        My orders
-                                    </button>
                                 </div>
                                 
                                 <div class="dropdown-divider"></div>
                                 
                                 <div class="dropdown-items">
-                                    <button class="dropdown-item" onclick="handleAccountAction('add-account')">
-                                        <span class="item-icon">👤</span>
-                                        Add another account
-                                    </button>
                                     <button class="dropdown-item" onclick="handleAccountAction('sign-out')">
                                         <span class="item-icon">🚪</span>
                                         Sign out
