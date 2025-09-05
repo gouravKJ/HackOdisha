@@ -1,45 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampusXchange - Student Marketplace</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>CampusXchange - Student Marketplace (v2.0)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=20250905030000">
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
+    <header class="container">
         <div class="container">
             <div class="header__content">
                 <div class="header__logo" onclick="navigateToHome()" role="button" tabindex="0">
-                    <h1>🎓 CampusXchange</h1>
+                    <div class="logo-container">
+                        <img src="assets/WhatsApp_Image_2025-09-05_at_10.45.44_PM-removebg-preview.png" 
+                             alt="CampusXchange Logo" 
+                             class="logo-img">
+                        <span class="logo-text">CampusXchange</span>
+                    </div>
                 </div>
+                
+                <nav class="header__nav">
+                    <button class="nav-btn" data-page="browse">Browse</button>
+                    <button class="nav-btn" data-page="services">Services</button>
+                    <button class="nav-btn" data-page="post">Sell Item</button>
+                    <button class="nav-btn" data-page="profile">Profile</button>
+                    <button class="nav-btn" data-page="chat">Messages</button>
+                </nav>
                 
                 <div class="header__search">
                     <input type="text" placeholder="Search for books, electronics, furniture..." class="search-input" id="searchInput">
-                    <button class="btn btn--primary search-btn" id="searchBtn">Search</button>
+                    <button class="btn btn--primary search-btn animated-search-btn" id="searchBtn">
+                        <span class="search-text">Search</span>
+                        <span class="search-arrow">→</span>
+                    </button>
                 </div>
                 
                 <div class="header__right">
-                    <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
-                        <span class="theme-icon">🌙</span>
+                    <!-- Sign In Button (shown when not logged in) -->
+                    <button class="btn btn--outline" id="headerSignInBtn" onclick="showSignInModal('Welcome to CampusXchange! Please sign in to get started.')" style="display: none;">
+                        Sign In
                     </button>
-                    
-                    <nav class="header__nav">
-                        <button class="nav-btn active" data-page="home">Home</button>
-                        <button class="nav-btn" data-page="browse">Browse</button>
-                        <button class="nav-btn" data-page="services">Services</button>
-                        <button class="nav-btn" data-page="post">Sell Item</button>
-                        <button class="nav-btn" data-page="chat">Messages</button>
-                    </nav>
                     
                     <!-- Google-style Account Menu -->
                     <div class="account-menu">
                         <button class="account-avatar" id="accountAvatar" title="Account">
-                            <div class="avatar-circle">JD</div>
+                            <div class="avatar-circle" id="headerAvatar">👤</div>
                         </button>
                         
                         <div class="account-dropdown hidden" id="accountDropdown">
@@ -103,7 +115,8 @@
                         <p class="hero__subtitle">Connect with fellow students to buy and sell textbooks, electronics, furniture, and more!</p>
                         <div class="hero__actions">
                             <button class="btn btn--primary btn--lg" data-page="browse">Start Shopping</button>
-                            <button class="btn btn--outline btn--lg" data-page="post">Sell Your Items</button>
+                            <button class="btn btn--primary btn--lg" data-page="post">Sell Your Items</button>
+                            <button class="btn btn--primary btn--lg" data-page="services">Find Services</button>
                         </div>
                     </div>
                 </div>
@@ -120,8 +133,15 @@
             <!-- Featured Listings -->
             <div class="featured-section">
                 <div class="container">
-                    <h2>Recent Listings</h2>
-                    <div class="products-grid" id="featuredProducts"></div>
+                    <div class="featured-header">
+                        <h2>Recent Listings</h2>
+                    </div>
+                    <div class="products-scroll-container">
+                        <div class="products-scroll" id="featuredProducts"></div>
+                    </div>
+                    <div class="scroll-progress-container">
+                        <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+                    </div>
                 </div>
             </div>
 
@@ -129,7 +149,44 @@
             <div class="recommendations-section">
                 <div class="container">
                     <h2>🤖 AI Recommendations for You</h2>
-                    <div class="recommendations-grid" id="recommendationsGrid"></div>
+                    <div class="recommendations-grid" id="recommendationsGrid">
+                        <div class="recommendation-card" onclick="handleRecommendationClick('dsa-book')" style="cursor: pointer;">
+                            <div class="recommendation-image">📚</div>
+                            <div class="recommendation-content">
+                                <h3>Data Structures & Algorithms Book</h3>
+                                <p>Popular among CSE 2nd years</p>
+                                <div class="recommendation-rating">
+                                    <span class="rating-stars">★★★★★</span>
+                                    <span class="rating-text">95% match</span>
+                                </div>
+                                <div class="recommendation-price">₹380</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-card" onclick="handleRecommendationClick('casio-calculator')" style="cursor: pointer;">
+                            <div class="recommendation-image">🧮</div>
+                            <div class="recommendation-content">
+                                <h3>Scientific Calculator - Casio fx-991ES</h3>
+                                <p>Essential for your upcoming exams</p>
+                                <div class="recommendation-rating">
+                                    <span class="rating-stars">★★★★☆</span>
+                                    <span class="rating-text">88% match</span>
+                                </div>
+                                <div class="recommendation-price">₹600</div>
+                            </div>
+                        </div>
+                        <div class="recommendation-card" onclick="handleRecommendationClick('programming-notes')" style="cursor: pointer;">
+                            <div class="recommendation-image">📝</div>
+                            <div class="recommendation-content">
+                                <h3>Programming Notes - Java & Python</h3>
+                                <p>From seniors in your branch</p>
+                                <div class="recommendation-rating">
+                                    <span class="rating-stars">★★★★☆</span>
+                                    <span class="rating-text">92% match</span>
+                                </div>
+                                <div class="recommendation-price">₹150</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -139,6 +196,8 @@
             <div class="container">
                 <div class="browse-header">
                     <h1>Marketplace</h1>
+                </div>
+                <div class="filters-section">
                     <div class="filters">
                         <select class="form-control" id="categoryFilter">
                             <option value="">All Categories</option>
@@ -155,6 +214,9 @@
                 </div>
                 <div class="products-grid" id="browseProducts"></div>
             </div>
+            <button class="scroll-to-top" id="browseScrollToTop" title="Scroll to top">
+                <span class="scroll-arrow">↑</span>
+            </button>
         </section>
 
         <!-- Services Page -->
@@ -163,6 +225,7 @@
                 <div class="services-header">
                     <h1>Freelance Services</h1>
                     <p>Find talented students to help with your projects</p>
+                    <button class="btn btn--primary" onclick="openServicePostModal()">Offer Your Services</button>
                 </div>
                 
                 <div class="services-categories">
@@ -175,6 +238,9 @@
                     <div class="services-grid" id="servicesGrid"></div>
                 </div>
             </div>
+            <button class="scroll-to-top" id="servicesScrollToTop" title="Scroll to top">
+                <span class="scroll-arrow">↑</span>
+            </button>
         </section>
 
         <!-- Post Ad Page -->
@@ -231,14 +297,69 @@
                         
                         <div class="image-upload">
                             <label class="form-label">Photos</label>
-                            <div class="upload-area">
-                                <p>📷 Click to upload photos (Max 5)</p>
-                                <input type="file" multiple accept="image/*" style="display: none;">
+                            <div class="upload-area" id="uploadArea">
+                                <div class="upload-content">
+                                    <div class="upload-icon">📷</div>
+                                    <p>Click to upload photos (Max 5)</p>
+                                    <p class="upload-hint">Drag & drop images here or click to browse</p>
+                                </div>
+                                <input type="file" multiple accept="image/*" id="imageInput" style="display: none;">
                             </div>
+                            <div class="image-preview-container" id="imagePreviewContainer"></div>
                         </div>
                         
                         <button type="submit" class="btn btn--primary btn--full-width">Post Item</button>
                     </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Profile Page -->
+        <section id="profilePage" class="page">
+            <div class="container">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large">
+                            <div class="avatar-circle-large" id="profileAvatar">JD</div>
+                            <button class="btn btn--outline btn--sm" id="editProfileBtn">Edit Profile</button>
+                        </div>
+                        <div class="profile-info">
+                            <h1 id="profileName">John Doe</h1>
+                            <p id="profileEmail">john.doe@college.edu</p>
+                            <div class="profile-stats">
+                                <div class="stat">
+                                    <span class="stat-number" id="listingsCount">12</span>
+                                    <span class="stat-label">Listings</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number" id="salesCount">8</span>
+                                    <span class="stat-label">Sales</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-number" id="ratingCount">4.8</span>
+                                    <span class="stat-label">Rating</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-tabs">
+                        <button class="tab-btn active" data-tab="listings">My Listings</button>
+                        <button class="tab-btn" data-tab="wishlist">Wishlist</button>
+                        <button class="tab-btn" data-tab="reviews">Reviews</button>
+                    </div>
+                    
+                    <div class="profile-content">
+                        <div class="tab-content active" id="listingsTab">
+                            <div class="products-grid" id="userListings"></div>
+                        </div>
+                        <div class="tab-content" id="wishlistTab">
+                            <div class="products-grid" id="wishlistItems"></div>
+                        </div>
+                        <div class="tab-content" id="reviewsTab">
+                            <div class="reviews-container" id="reviewsContainer"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -281,38 +402,255 @@
         </div>
     </div>
 
-    <!-- Success Message -->
-    <div id="successMessage" class="success-message hidden">
-        <div class="success-content">
-            <span class="success-icon">✅</span>
-            <span id="successText">Action completed successfully!</span>
-        </div>
-    </div>
 
     <!-- Sign In Modal -->
     <div id="signInModal" class="modal hidden">
         <div class="modal-content sign-in-modal">
             <div class="modal-header">
-                <h2>Sign in to CampusXchange</h2>
+                <h2>Welcome to CampusXchange</h2>
                 <button class="modal-close" id="closeSignInModal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="sign-in-content">
-                    <div class="google-sign-in-btn" onclick="handleSignIn()">
-                        <span class="google-icon">🔑</span>
-                        Sign in with College Account
-                    </div>
-                    <div class="sign-in-divider">
-                        <span>or</span>
-                    </div>
-                    <button class="btn btn--outline btn--full-width" onclick="handleUseAnotherAccount()">
-                        Use another account
-                    </button>
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="signin">Sign In</button>
+                    <button class="auth-tab" data-tab="login">Login</button>
                 </div>
+                
+                <!-- Sign In Form -->
+                <div id="signinForm" class="auth-form active">
+                    <form id="signInFormData">
+                        <div class="form-group">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" class="form-control" id="signinName" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" class="form-control" id="signinEmail" required placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password *</label>
+                            <div class="password-input-group">
+                                <input type="password" class="form-control" id="signinPassword" required placeholder="Create a password">
+                                <button type="button" class="password-toggle" onclick="togglePassword('signinPassword')">
+                                    <span class="password-icon">👁️</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Confirm Password *</label>
+                            <div class="password-input-group">
+                                <input type="password" class="form-control" id="signinConfirmPassword" required placeholder="Confirm your password">
+                                <button type="button" class="password-toggle" onclick="togglePassword('signinConfirmPassword')">
+                                    <span class="password-icon">👁️</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">College/University *</label>
+                            <input type="text" class="form-control" id="signinCollege" required placeholder="Enter your college name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Student ID (Optional)</label>
+                            <input type="text" class="form-control" id="signinStudentId" placeholder="Enter your student ID">
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="signinTerms" required>
+                                <span class="checkmark"></span>
+                                I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full-width">
+                            <span class="btn-text">Create Account</span>
+                            <span class="btn-loading hidden">Creating Account...</span>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="loginForm" class="auth-form">
+                    <form id="loginFormData">
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" class="form-control" id="loginEmail" required placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password *</label>
+                            <div class="password-input-group">
+                                <input type="password" class="form-control" id="loginPassword" required placeholder="Enter your password">
+                                <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                                    <span class="password-icon">👁️</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="loginRemember">
+                                <span class="checkmark"></span>
+                                Remember me
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full-width">
+                            <span class="btn-text">Sign In</span>
+                            <span class="btn-loading hidden">Signing In...</span>
+                        </button>
+                        <div class="auth-links">
+                            <a href="#" class="forgot-password-link">Forgot Password?</a>
+                        </div>
+                    </form>
+                </div>
+                
             </div>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- Floating Action Button -->
+    <button class="fab" id="fabBtn" title="Quick Actions">
+        <span>+</span>
+    </button>
+
+    <!-- FAB Menu -->
+    <div class="fab-menu hidden" id="fabMenu">
+        <button class="fab-item" data-action="post">
+            <span class="fab-icon">📝</span>
+            <span class="fab-label">Sell Item</span>
+        </button>
+        <button class="fab-item" data-action="chat">
+            <span class="fab-icon">💬</span>
+            <span class="fab-label">Messages</span>
+        </button>
+    </div>
+
+
+    <!-- Service Post Modal -->
+    <div id="servicePostModal" class="modal hidden">
+        <div class="modal-content service-post-modal">
+            <div class="modal-header">
+                <h2>Offer Your Services</h2>
+                <button class="modal-close" id="closeServicePostModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="service-post-form" id="servicePostForm">
+                    <div class="form-group">
+                        <label class="form-label">Service Title *</label>
+                        <input type="text" class="form-control" id="serviceTitle" required placeholder="e.g., Professional Video Editing">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Category *</label>
+                        <select class="form-control" id="serviceCategory" required>
+                            <option value="">Select Category</option>
+                            <option value="Video Editing">Video Editing</option>
+                            <option value="Content Writing">Content Writing</option>
+                            <option value="Graphic Design">Graphic Design</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="Tutoring">Tutoring</option>
+                            <option value="Photography">Photography</option>
+                            <option value="Data Entry">Data Entry</option>
+                            <option value="Translation">Translation</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Description *</label>
+                        <textarea class="form-control" id="serviceDescription" rows="4" required placeholder="Describe your service in detail..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Skills *</label>
+                        <input type="text" class="form-control" id="serviceSkills" required placeholder="e.g., Premiere Pro, After Effects, Photoshop">
+                        <small class="form-hint">Separate skills with commas</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Experience *</label>
+                        <select class="form-control" id="serviceExperience" required>
+                            <option value="">Select Experience Level</option>
+                            <option value="Beginner">Beginner (0-1 years)</option>
+                            <option value="Intermediate">Intermediate (1-3 years)</option>
+                            <option value="Advanced">Advanced (3-5 years)</option>
+                            <option value="Expert">Expert (5+ years)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Delivery Time *</label>
+                        <select class="form-control" id="serviceDelivery" required>
+                            <option value="">Select Delivery Time</option>
+                            <option value="Same day">Same day</option>
+                            <option value="1-2 days">1-2 days</option>
+                            <option value="3-5 days">3-5 days</option>
+                            <option value="1 week">1 week</option>
+                            <option value="2+ weeks">2+ weeks</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Portfolio Link (Optional)</label>
+                        <input type="url" class="form-control" id="servicePortfolio" placeholder="https://yourportfolio.com">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--outline" id="cancelServicePost">Cancel</button>
+                <button class="btn btn--primary" id="submitServicePost">Post Service</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__brand">
+                    <h3 class="footer__title">Made by NEON NEXUS</h3>
+                    <p class="footer__location">Veer Surendra Sai University of Technology, Burla, Sambalpur</p>
+                </div>
+                <div class="footer__social">
+                    <h4 class="footer__social-title">Follow Us</h4>
+                    <div class="footer__social-links">
+                        <a href="https://github.com" class="social-link" title="GitHub" target="_blank" rel="noopener noreferrer">
+                            <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            <span class="social-text">GitHub</span>
+                        </a>
+                        <a href="https://linkedin.com" class="social-link" title="LinkedIn" target="_blank" rel="noopener noreferrer">
+                            <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                            <span class="social-text">LinkedIn</span>
+                        </a>
+                        <a href="https://twitter.com" class="social-link" title="Twitter" target="_blank" rel="noopener noreferrer">
+                            <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                            </svg>
+                            <span class="social-text">Twitter</span>
+                        </a>
+                        <a href="https://instagram.com" class="social-link" title="Instagram" target="_blank" rel="noopener noreferrer">
+                            <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.014 5.367 18.647.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.708 13.744 3.708 12.447s.49-2.448 1.418-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.928.875 1.418 2.026 1.418 3.323s-.49 2.448-1.418 3.244c-.875.807-2.026 1.297-3.323 1.297zm7.83-9.281c-.49 0-.928-.175-1.297-.49-.368-.315-.49-.753-.49-1.243 0-.49.122-.928.49-1.243.369-.315.807-.49 1.297-.49s.928.175 1.297.49c.368.315.49.753.49 1.243 0 .49-.122.928-.49 1.243-.369.315-.807.49-1.297.49z"/>
+                            </svg>
+                            <span class="social-text">Instagram</span>
+                        </a>
+                        <a href="https://discord.com" class="social-link" title="Discord" target="_blank" rel="noopener noreferrer">
+                            <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                            </svg>
+                            <span class="social-text">Discord</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p class="footer__copyright">© 2024 CampusXchange. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js?v=20250905030000"></script>
 </body>
 </html>
