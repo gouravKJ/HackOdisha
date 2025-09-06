@@ -321,31 +321,90 @@ const appData = {
   }
   
   function setupEventListeners() {
-      console.log('Setting up event listeners...');
-      
-      // Navigation
-      navButtons.forEach(btn => {
-          btn.addEventListener('click', (e) => {
-              e.preventDefault();
-              const targetPage = e.target.dataset.page;
-              console.log('Navigation clicked:', targetPage);
-              navigateToPage(targetPage);
-          });
-      });
-  
-      // Logo click to home
-      const logoElement = document.querySelector('.header__logo');
-      if (logoElement) {
-          logoElement.addEventListener('click', (e) => {
-              e.preventDefault();
-              console.log('Logo clicked - navigating to home');
-              navigateToPage('home');
-          });
-          
-          logoElement.style.cursor = 'pointer';
-          logoElement.setAttribute('role', 'button');
-          logoElement.setAttribute('tabindex', '0');
-      }
+    console.log('Setting up event listeners...');
+    
+    // Navigation
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetPage = e.target.dataset.page;
+            console.log('Navigation clicked:', targetPage);
+            navigateToPage(targetPage);
+        });
+    });
+
+    // Mobile Navigation
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+    const mobileNavClose = document.getElementById('mobileNavClose');
+    const mobileNavButtons = document.querySelectorAll('.mobile-nav-btn');
+    const mobileSearchBtn = document.getElementById('mobileSearchBtn');
+    const mobileSearchInput = document.getElementById('mobileSearchInput');
+    
+    if (hamburgerMenu) {
+        hamburgerMenu.addEventListener('click', () => {
+            mobileNavOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+        });
+    }
+    
+    if (mobileNavClose) {
+        mobileNavClose.addEventListener('click', () => {
+            mobileNavOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Re-enable scrolling
+        });
+    }
+    
+    if (mobileNavButtons) {
+        mobileNavButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = e.target.dataset.page;
+                console.log('Mobile navigation clicked:', targetPage);
+                navigateToPage(targetPage);
+                mobileNavOverlay.classList.remove('active');
+                document.body.style.overflow = ''; // Re-enable scrolling
+            });
+        });
+    }
+    
+    // Mobile header search functionality
+    const mobileHeaderSearchBtn = document.getElementById('mobileHeaderSearchBtn');
+    const mobileHeaderSearchInput = document.getElementById('mobileHeaderSearchInput');
+    
+    if (mobileHeaderSearchBtn && mobileHeaderSearchInput) {
+        mobileHeaderSearchBtn.addEventListener('click', () => {
+            const searchQuery = mobileHeaderSearchInput.value.trim();
+            if (searchQuery) {
+                console.log('Mobile header search:', searchQuery);
+                performSearch(searchQuery);
+            }
+        });
+        
+        mobileHeaderSearchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const searchQuery = mobileHeaderSearchInput.value.trim();
+                if (searchQuery) {
+                    console.log('Mobile header search (Enter):', searchQuery);
+                    performSearch(searchQuery);
+                }
+            }
+        });
+    }
+
+    // Logo click to home
+    const logoElement = document.querySelector('.header__logo');
+    if (logoElement) {
+        logoElement.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Logo clicked - navigating to home');
+            navigateToPage('home');
+        });
+        
+        logoElement.style.cursor = 'pointer';
+        logoElement.setAttribute('role', 'button');
+        logoElement.setAttribute('tabindex', '0');
+    }
       
       // Hero action buttons
       document.querySelectorAll('.hero__actions .btn').forEach(btn => {
@@ -389,16 +448,16 @@ const appData = {
   
       // Search functionality
       const searchBtn = document.getElementById('searchBtn');
-      const searchInput = document.getElementById('searchInput');
-      
-      if (searchBtn) {
-          searchBtn.addEventListener('click', performSearch);
-      }
-      if (searchInput) {
-          searchInput.addEventListener('keypress', (e) => {
-              if (e.key === 'Enter') performSearch();
-          });
-      }
+    const searchInput = document.getElementById('searchInput');
+    
+    if (searchBtn) {
+        searchBtn.addEventListener('click', () => performSearch());
+    }
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+    }
   
       // Filter functionality
       const categoryFilter = document.getElementById('categoryFilter');
@@ -1000,6 +1059,10 @@ const appData = {
   
   // Show sign in modal with custom message
   function showSignInModal(message = 'Please sign in to continue') {
+    // Redirect to the login page instead of showing modal
+    window.location.href = 'login.html';
+    return;
+    // The code below is kept for backward compatibility but won't execute
       const signInModal = document.getElementById('signInModal');
       if (signInModal) {
           // Update modal message
@@ -1345,23 +1408,31 @@ const appData = {
       renderBrowseProducts();
   }
   
-  function performSearch() {
-      const searchInput = document.getElementById('searchInput');
-      if (!searchInput) return;
-      
-      const query = searchInput.value.toLowerCase().trim();
-      if (!query) return;
-  
-      filteredProducts = appData.sampleListings.filter(product => 
-          product.title.toLowerCase().includes(query) ||
-          product.category.toLowerCase().includes(query) ||
-          product.seller.toLowerCase().includes(query)
-      );
-  
-      navigateToPage('browse');
-      renderBrowseProducts();
-      showSuccessMessage(`Found ${filteredProducts.length} results for "${query}"`);
-  }
+  function performSearch(searchQuery) {
+    let query;
+    
+    if (searchQuery) {
+        // If a search query is provided as parameter (from mobile search)
+        query = searchQuery.toLowerCase().trim();
+    } else {
+        // Otherwise use the desktop search input
+        const searchInput = document.getElementById('searchInput');
+        if (!searchInput) return;
+        query = searchInput.value.toLowerCase().trim();
+    }
+    
+    if (!query) return;
+
+    filteredProducts = appData.sampleListings.filter(product => 
+        product.title.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query) ||
+        product.seller.toLowerCase().includes(query)
+    );
+
+    navigateToPage('browse');
+    renderBrowseProducts();
+    showSuccessMessage(`Found ${filteredProducts.length} results for "${query}"`);
+}
   
   function closeModalHandler() {
       if (modal) {

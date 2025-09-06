@@ -1,0 +1,389 @@
+/* UI Enhancements for CampusXchange */
+
+/* Enable smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Glow effects for headings */
+h1, h2, h3 {
+  transition: var(--transition-smooth);
+}
+
+h1:hover, h2:hover, h3:hover {
+  text-shadow: 0 0 8px var(--glow-color-primary), 0 0 12px var(--glow-color-secondary);
+}
+
+/* Hero title specific glow effect */
+.hero__title {
+  position: relative;
+}
+
+.hero__title:hover {
+  text-shadow: 0 0 10px var(--glow-color-primary), 0 0 15px var(--glow-color-secondary);
+}
+
+/* Shop by Category section enhancements */
+.categories-grid .category-card {
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.categories-grid .category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15), 0 0 10px var(--glow-color-secondary);
+}
+
+/* Marketplace filters hover effects */
+.filters select, .filters button, .filters input {
+  transition: var(--transition-smooth);
+}
+
+.filters select:hover, .filters button:hover, .filters input:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 5px var(--glow-color-secondary);
+}
+
+/* Contact seller responsive styling */
+.contact-seller-section {
+  transition: var(--transition-smooth);
+}
+
+/* Hamburger Menu Styles */
+.hamburger-menu {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+  position: absolute;
+  left: 20px; /* Changed from right to left */
+  top: 20px;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background-color: var(--color-text);
+  transition: var(--transition-smooth);
+  border-radius: 3px;
+}
+
+/* Mobile Search in Header */
+.mobile-header-search {
+  display: none;
+  width: 100%;
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.mobile-header-search .search-input {
+  height: 36px;
+  font-size: 14px;
+  padding: 0 10px;
+  width: calc(100% - 50px);
+}
+
+.mobile-header-search .search-btn {
+  height: 36px;
+  padding: 0 10px;
+  font-size: 16px;
+  width: 40px;
+}
+
+/* Mobile Navigation Overlay */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-background);
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.mobile-nav-overlay.active {
+  display: flex;
+}
+
+.mobile-nav-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mobile-nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.mobile-nav-close {
+  background: transparent;
+  border: none;
+  font-size: 32px;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.mobile-nav-btn {
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 18px;
+  padding: 10px 0;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+  transition: var(--transition-smooth);
+}
+
+.mobile-nav-btn:hover {
+  color: var(--color-primary);
+}
+
+.mobile-search {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.desktop-only {
+  display: flex;
+}
+
+/* Responsive design for devices <768px */
+@media screen and (max-width: 768px) {
+  /* Header responsive adjustments */
+  .header__content {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    position: relative;
+  }
+  
+  .hamburger-menu {
+    display: flex;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+  
+  .mobile-header-search {
+    display: flex;
+  }
+  
+  .header__logo {
+    margin-bottom: 0;
+    margin-left: 40px; /* Make space for hamburger menu */
+    text-align: center;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+  }
+  
+  .logo-text {
+    font-size: 16px; /* Smaller text for mobile */
+  }
+  
+  /* Hero section responsive */
+  .hero__content {
+    padding: 20px 10px;
+  }
+  
+  .hero__actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .hero__actions .btn {
+    margin: 5px 0;
+    width: 100%;
+  }
+  
+  /* Categories grid responsive */
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  /* Product cards responsive */
+  .product-card {
+    width: 100%;
+  }
+  
+  /* Contact seller responsive */
+  .contact-seller-section {
+    padding: 15px;
+  }
+  
+  .contact-form {
+    flex-direction: column;
+  }
+  
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  /* Login/Signup modal responsive */
+  .modal-content {
+    width: 95%;
+    max-width: 350px;
+    padding: 15px;
+  }
+  
+  .modal-tabs {
+    flex-direction: row;
+  }
+  
+  .modal-tab {
+    flex: 1;
+    padding: 8px;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .form-control {
+    padding: 8px;
+  }
+  
+  /* Mobile navigation specific styles */
+  .mobile-nav-overlay {
+    padding-top: 20px;
+  }
+  
+  .mobile-nav-btn {
+    font-size: 16px;
+    padding: 12px 0;
+  }
+}
+
+/* Login/Signup page styles */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 30px;
+  transition: var(--transition-smooth);
+}
+
+.auth-tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.auth-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  border-bottom: 2px solid transparent;
+}
+
+.auth-tab.active {
+  border-bottom: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.auth-tab:hover {
+  color: var(--color-primary);
+  text-shadow: 0 0 5px var(--glow-color-secondary);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.auth-form label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.auth-form input {
+  padding: 12px;
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  transition: var(--transition-smooth);
+}
+
+.auth-form input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 5px var(--glow-color-secondary);
+  outline: none;
+}
+
+.auth-form button {
+  padding: 12px;
+  border-radius: var(--radius-base);
+  background-color: var(--color-primary);
+  color: var(--color-btn-primary-text);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  border: none;
+}
+
+.auth-form button:hover {
+  background-color: var(--color-primary-hover);
+  box-shadow: 0 0 8px var(--glow-color-primary);
+}
+
+@media screen and (max-width: 768px) {
+  .auth-container {
+    padding: 20px;
+  }
+  
+  .auth-form input,
+  .auth-form button {
+    padding: 10px;
+  }
+}

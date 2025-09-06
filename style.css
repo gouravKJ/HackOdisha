@@ -22,6 +22,10 @@
   --color-red-500: rgba(192, 21, 47, 1);
   --color-orange-400: rgba(230, 129, 97, 1);
   --color-orange-500: rgba(168, 75, 47, 1);
+  
+  /* Glow effect colors */
+  --glow-color-primary: rgba(41, 150, 161, 0.4);
+  --glow-color-secondary: rgba(50, 184, 198, 0.3);
 
   /* RGB versions for opacity control */
   --color-brown-600-rgb: 94, 82, 64;
@@ -105,6 +109,7 @@
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: all 0.3s ease;
 
   /* Layout */
   --container-sm: 640px;
@@ -2061,14 +2066,33 @@ h6 {
   padding: var(--space-24);
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s var(--ease-standard);
-  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .category-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 0 15px rgba(50, 184, 198, 0.3);
   border-color: var(--color-primary);
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover::before {
+  transform: scaleX(1);
 }
 
 .category-icon {
@@ -2094,13 +2118,13 @@ h6 {
   border-radius: var(--radius-lg);
   padding: var(--space-24);
   cursor: pointer;
-  transition: all 0.3s var(--ease-standard);
-  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .service-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 0 15px rgba(50, 184, 198, 0.3);
   border-color: var(--color-primary);
 }
 
@@ -2818,7 +2842,6 @@ h6 {
   align-items: center;
   justify-content: center;
   gap: var(--space-8);
-  margin-bottom: var(--space-16);
 }
 
 .rating-stars {
@@ -4582,6 +4605,11 @@ html {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.02em;
+  transition: text-shadow 0.3s ease;
+}
+
+.footer__title:hover {
+  text-shadow: 0 0 10px rgba(50, 184, 198, 0.5);
 }
 
 .footer__location {
